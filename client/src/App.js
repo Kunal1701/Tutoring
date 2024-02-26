@@ -13,6 +13,7 @@ import TutorProfile from "./components/TutorProfile";
 import ManageBookingPage from "./pages/ManageBookingPage";
 import ClassHistoryPage from "./pages/ClassHistoryPage";
 import RequireAuth from "./components/RequireAuth";
+import RegisterPage2 from "./components/RegisterPage2";
 const LazySearch = React.lazy(() => import("./components/SearchTutor"));
 const LazySearch2 = React.lazy(() => import("./components/TutorInfo"));
 
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/register" element={<RegisterPage />}></Route>
+        <Route path="/regteacher" element={<RegisterPage2 />}></Route>
         <Route path="/book" element={<BookClass />}>
           <Route path=":subject" element={<TutorProfile />} />
           <Route
@@ -85,6 +87,7 @@ function App() {
           }
         ></Route>
         <Route path="/" element={<Landing />}></Route>
+
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </AuthProvider>

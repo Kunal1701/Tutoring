@@ -9,8 +9,8 @@ dotenv.config({ path: ".env" });
  */
 function MyMongoDB() {
   const myDB = {};
-  const url = process.env.MONGO_URI || "mongodb://localhost:27017";
-  const DB_NAME = "TutorsApp";
+  const url = process.env.MONGO_URI;
+  const DB_NAME = process.env.DB;
   const USER_COLLECTION = "users";
   const TUTORS_COLLECTION = "tutors";
   const PAGE_SIZE = 18;
@@ -50,6 +50,36 @@ function MyMongoDB() {
 
   /**
    * Amanda
+   * 2022/11/22: added schedule property
+   * function that creates user
+   * @param {String} user from user
+   * @param {String} hash from user
+   * @param {String} salt from user
+   * @param {String} displayName from user
+   * @returns user
+   */
+  myDB.createTutor = async (_email, _salt, _hash, tutorData) => {
+    let client;
+    try {
+      client = new MongoClient(url);
+      const db = client.db(DB_NAME);
+      const tutorsCol = db.collection(TUTORS_COLLECTION);
+      const res = await tutorsCol.insertOne({
+        user: _email,
+        salt: _salt,
+        hash: _hash,
+        ...tutorData,
+      });
+      return res;
+    } catch (err) {
+      alert(`This is an error ${err}`);
+    } finally {
+      client.close();
+    }
+  };
+
+  /**
+   * Amanda
    * gets user from the registration form
    * @param {String} email
    * @returns the user email
@@ -60,6 +90,30 @@ function MyMongoDB() {
       client = new MongoClient(url);
       const db = client.db(DB_NAME);
       const usersCol = db.collection(USER_COLLECTION);
+      const options = {
+        projection: { user: 1, salt: 1, hash: 1, profile: 1 },
+      };
+      const res = await usersCol.findOne({ user: _email }, options);
+      return res;
+    } catch (err) {
+      alert(`This is an error ${err}`);
+    } finally {
+      client.close();
+    }
+  };
+
+  /**
+   * Amanda
+   * gets user from the registration form
+   * @param {String} email
+   * @returns the user email
+   */
+  myDB.getTutors = async (_email) => {
+    let client;
+    try {
+      client = new MongoClient(url);
+      const db = client.db(DB_NAME);
+      const usersCol = db.collection(TUTORS_COLLECTION);
       const options = {
         projection: { user: 1, salt: 1, hash: 1, profile: 1 },
       };
@@ -208,6 +262,8 @@ function MyMongoDB() {
           { first_name: { $regex: word, $options: "i" } },
           { subjects: { $regex: word, $options: "i" } },
           { last_name: { $regex: word, $options: "i" } },
+          { location: { $regex: word, $options: "i" } },
+          { city: { $regex: word, $options: "i" } },
         ],
       };
       const res = await tutorsCol

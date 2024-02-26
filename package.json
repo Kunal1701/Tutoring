@@ -1,5 +1,5 @@
 {
-  "name": "tutormatchapp",
+  "name": "whereisyourtutorapp",
   "version": "1.0.0",
   "description": "MERN stack application that helps students get the academic help they need",
   "main": "server.js",
@@ -8,7 +8,7 @@
     "postinstall": "cd client && npm install && npm run build",
     "start": "node server.js",
     "dev": "prettier --write . && NODE_ENV=development nodemon server.js",
-    "initDB": "mongoimport -d TutorsApp -c tutors --jsonArray --file ./db/data/tutors2.json"
+    "initDB": "mongoimport -d collegetutorapp -c tutors --jsonArray --file ./db/data/tutors2.json"
   },
   "repository": {
     "type": "git",

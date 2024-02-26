@@ -85,7 +85,7 @@ function Navbar() {
 
           <div className="navbar-brand">
             <NavLink className="navbrand-link" to="/">
-              Tutor Match
+              Where is Your Tutor?
             </NavLink>
           </div>
 

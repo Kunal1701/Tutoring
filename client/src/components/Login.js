@@ -51,7 +51,10 @@ function Login() {
       <div className="alternate-text">
         <Link id="reg-link" to="/register">
           <div>No Account?</div>
-          <div>Sign Up!</div>
+          <div>Sign Up as a Student!</div>
+        </Link>
+        <Link id="reg-link" to="/regteacher">
+          <div>Sign Up as a Teacher!</div>
         </Link>
       </div>
       <h1 className="card-title" id="signIn">

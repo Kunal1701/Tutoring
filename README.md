@@ -33,6 +33,7 @@ manipulation to get tutor data
 https://tutorapp-zwr3.onrender.com/
 
 # Updated Deployment Link
+
 https://tutormatchapp.onrender.com/
 
 # Design Document
@@ -183,9 +184,11 @@ Yian Chen & So Man Amanda Au-Yeung
 https://docs.google.com/presentation/d/1_Ht--i4RtaW4VXUX7TEaVxc8PrCrZrVgcXAEmqJYUpA/edit#slide=id.p
 
 # Updated Slides
+
 https://docs.google.com/presentation/d/1XQjXYT5RAmvWul5nFMSSMDTBmEJw9rnNUnSKGrvS0Rk/edit?usp=sharing
 
 # Presentation Video
+
 https://www.youtube.com/watch?v=J88GZya1jVo
 
 # References

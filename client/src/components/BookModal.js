@@ -75,13 +75,17 @@ function BookModal({
               return (
                 <div className="time" key={idx}>
                   <p>{date}</p>
-                  {tutorProfile.hours[idx].map((hr, i) => {
-                    return (
-                      <div key={i} className="hourDiv">
-                        {renderButton(date, hr)}
-                      </div>
-                    );
-                  })}
+                  {tutorProfile.hours.length > 0 ? (
+                    tutorProfile.hours[idx].map((hr, i) => {
+                      return (
+                        <div key={i} className="hourDiv">
+                          {renderButton(date, hr)}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <h1>no hour</h1>
+                  )}
                 </div>
               );
             })}

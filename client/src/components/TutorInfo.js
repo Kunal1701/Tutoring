@@ -57,29 +57,38 @@ function TutorInfo({ tutorProfile, returnToSearch, handleModal }) {
               </div>
               <div className="col div2" tabIndex="0">
                 <h2 className="student">Student Reviews</h2>
-                {tutorProfile.reviews.map((review, idx) => {
-                  const regex = /Tutor/i;
-                  const r = review.replace(regex, `${tutorProfile.first_name}`);
-                  return (
-                    <div className="innerDiv" key={`tutor_${idx}`}>
-                      <section className="rectangle">
-                        <div className="wrapper">
-                          <div className="review">
-                            <div className="review-base">
-                              <blockquote
-                                className={
-                                  idx % 2 === 0 ? "review-text" : "review-text2"
-                                }
-                              >
-                                {r}
-                              </blockquote>
+                {tutorProfile.reviews.length > 0 ? (
+                  tutorProfile.reviews.map((review, idx) => {
+                    const regex = /Tutor/i;
+                    const r = review.replace(
+                      regex,
+                      `${tutorProfile.first_name}`
+                    );
+                    return (
+                      <div className="innerDiv" key={`tutor_${idx}`}>
+                        <section className="rectangle">
+                          <div className="wrapper">
+                            <div className="review">
+                              <div className="review-base">
+                                <blockquote
+                                  className={
+                                    idx % 2 === 0
+                                      ? "review-text"
+                                      : "review-text2"
+                                  }
+                                >
+                                  {r}
+                                </blockquote>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </section>
-                    </div>
-                  );
-                })}
+                        </section>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <h1>no reviews</h1>
+                )}
               </div>
             </div>
           </div>
