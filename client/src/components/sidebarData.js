@@ -1,5 +1,5 @@
 import { FaEdit, FaRegCalendarCheck, FaHistory } from "react-icons/fa";
-import { BsFillGearFill } from "react-icons/bs";
+// import { BsFillGearFill } from "react-icons/bs";
 
 /**
  * Amanda Au-Yeung
@@ -24,10 +24,10 @@ export const sidebarData = [
     icon: <FaHistory />,
     cName: "sidenav__list-item",
   },
-  {
-    title: "Account Settings",
-    path: "/profile/accountSettings",
-    icon: <BsFillGearFill />,
-    cName: "sidenav__list-item",
-  },
+  // {
+  //   title: "Account Settings",
+  //   path: "/profile/accountSettings",
+  //   icon: <BsFillGearFill />,
+  //   cName: "sidenav__list-item",
+  // },
 ];

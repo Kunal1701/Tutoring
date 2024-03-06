@@ -92,9 +92,12 @@ function BookModal({
           </div>
         </div>
         <div className="btnContainer">
-          <button className="confirmBtn" onClick={() => confirmClasses()}>
-            Confirm Booking
-          </button>
+          <a href="https://buy.stripe.com/test_cN2aGS8FF40Je6kfZ1">
+            {" "}
+            <button className="confirmBtn" onClick={() => confirmClasses()}>
+              Confirm Booking
+            </button>
+          </a>
         </div>
       </div>
     </div>,

@@ -12,7 +12,7 @@ function RegisterTeacher() {
     gender: "",
     education: "",
     subjects: "",
-    image: null,
+    image: "",
     hours: [],
     location: "",
     city: "",
@@ -63,6 +63,17 @@ function RegisterTeacher() {
   const handleRegister = () => {
     navigate("/login", { replace: true });
   };
+
+  function previewfiles(file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setUser((prev) => ({
+        ...prev,
+        image: reader.result,
+      }));
+    };
+  }
 
   return (
     <main className="container">
@@ -232,6 +243,25 @@ function RegisterTeacher() {
                 required
               />
             </div>
+
+            <div className="mb-3">
+              <label htmlFor="inputimage" className="form-label">
+                Profile Image
+              </label>
+              <input
+                type="file"
+                className="form-control"
+                id="inputimage"
+                name="image"
+                onChange={(evt) => {
+                  const file = evt.target.files[0];
+                  previewfiles(file);
+                }}
+                accept="image/png, image/jpeg, image/jpg"
+                required
+              />
+            </div>
+
             <div className="mb-3">
               <label htmlFor="inputHours" className="form-label">
                 Hours
@@ -242,48 +272,23 @@ function RegisterTeacher() {
                 id="inputHours"
                 placeholder="Enter hours (e.g., 15:00-17:00, 18:00-19:00)"
                 value={user.hours.join(",")}
-                onChange={(e) =>
+                onChange={(e) => {
                   setUser((prev) => ({
                     ...prev,
                     hours: e.target.value
                       .split(",")
                       .map((hours) => hours.split("!")),
-                  }))
-                }
+                  }));
+                }}
                 name="hours"
                 required
               />
             </div>
 
-            <div className="mb-3">
-              <label htmlFor="inputImage" className="form-label">
-                Profile Image
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                id="inputImage"
-                name="image"
-                onChange={onInputChange}
-                accept="image/*"
-                required
-              />
-            </div>
             <button type="submit" className="btn btn-primary">
               Sign Up
             </button>
           </form>
-          <button type="submit">
-            <form>
-              <script
-                src="https://checkout.razorpay.com/v1/payment-button.js"
-                data-payment_button_id="pl_Nbq7l1VqW2qBOq"
-                async
-              >
-                {" "}
-              </script>{" "}
-            </form>
-          </button>
         </div>
       </div>
     </main>

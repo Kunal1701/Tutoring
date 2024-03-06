@@ -1,6 +1,7 @@
 import myDB from "../db/myDB.js";
 import { genPassword } from "./utils/passwordUtilites.js";
 import { v2 as cloudinary } from "cloudinary";
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
@@ -56,21 +57,19 @@ export const registerTeacher = async (req, res) => {
     checkExistUser = await myDB.getTutors(req.body.email);
     if (checkExistUser === null) {
       const { salt, hash } = genPassword(req.body.password);
-      let imageUrl = null;
-      imageUrl = await uploadImage(req.body.image);
       const tutorData = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         gender: req.body.gender,
         education: req.body.education,
         hours: req.body.hours,
-        image: imageUrl,
         num_of_ratings: req.body.num_of_ratings,
         stars: req.body.stars,
         reviews: [],
         subjects: req.body.subjects,
         city: req.body.city,
         location: req.body.location,
+        image: await uploadImage(req.body.image),
       };
       await myDB.createTutor(req.body.email, salt, hash, tutorData);
       res
@@ -88,16 +87,22 @@ export const registerTeacher = async (req, res) => {
 };
 
 async function uploadImage(imagePath) {
-  try {
-      // Upload the image to Cloudinary
-      const result = await cloudinary.uploader.upload(imagePath);
-      console.log(result);
-      const imageUrl = result.secure_url;
+  let url = "";
+  const data = new FormData();
+  data.append("file", imagePath);
+  data.append("upload_preset", "kunaldemo");
+  data.append("cloud_name", "dhtop7em9");
 
-      // You can save this image URL to your database or use it as needed
-      console.log(`Image uploaded successfully. URL: ${imageUrl}`);
-      return imageUrl;
-  } catch (error) {
-      console.error(`Error uploading image: ${error.message}`);
-  }
+  await fetch("https://api.cloudinary.com/v1_1/dhtop7em9/image/upload", {
+    method: "post",
+    body: data,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      url = data.url;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  return url;
 }

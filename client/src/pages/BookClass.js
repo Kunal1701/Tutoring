@@ -309,7 +309,7 @@ function BookClass() {
   const confirmClasses = () => {
     if (auth.user) {
       addClassBackend(bookClassMap.values());
-      alert("Class Booked");
+      alert("Proceed to Pay!");
       setModalIsOpen(!modalIsOpen);
     } else {
       alert("Please login to book this class");
