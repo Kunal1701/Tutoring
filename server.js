@@ -51,6 +51,11 @@ app.use("/", accountSetting);
 app.use("/", manageBooking);
 app.use("/", classHistory);
 app.get("/mail", sendMail);
+app.get("/test",(req,res)=>{
+    res.json({
+      "message": "Okay Report"
+    })
+})
 app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
