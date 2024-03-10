@@ -15,6 +15,7 @@ import register from "./routers/register.js";
 import login from "./routers/login.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import sendMail from "./controllers/sendMail.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -49,7 +50,7 @@ app.use("/", editProfile);
 app.use("/", accountSetting);
 app.use("/", manageBooking);
 app.use("/", classHistory);
-
+app.get("/mail", sendMail);
 app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)

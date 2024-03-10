@@ -308,6 +308,14 @@ function BookClass() {
   //when confirm button is clicked, classes are added to DB
   const confirmClasses = () => {
     if (auth.user) {
+      fetch("http://localhost:5001/mail?email=" + tutorProfile.user)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Email sent successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error sending email:", error);
+        });
       addClassBackend(bookClassMap.values());
       alert("Proceed to Pay!");
       setModalIsOpen(!modalIsOpen);
