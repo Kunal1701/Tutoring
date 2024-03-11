@@ -16,6 +16,7 @@ import login from "./routers/login.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import sendMail from "./controllers/sendMail.js";
+import cors from "cors";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -29,6 +30,7 @@ app.use(express.static("./public"));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
+app.use(cors());
 
 app.use(
   session({
@@ -51,11 +53,6 @@ app.use("/", accountSetting);
 app.use("/", manageBooking);
 app.use("/", classHistory);
 app.get("/mail", sendMail);
-app.get("/test",(req,res)=>{
-    res.json({
-      "message": "Okay Report"
-    })
-})
 app.listen(
   PORT,
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
