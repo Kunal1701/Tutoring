@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 function SearchTutor({ notFound, search, handleSubmit, page }) {
   const [searchword, setSearchword] = useState("");
   const [searchParams, setSearchParams] = useSearchParams("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("Arya");
 
   /**Yian Chen
    * function that handles change on search input
@@ -49,7 +49,7 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
     fetchCurrentLocation();
   };
 
-   const fetchCurrentLocation = async () => {
+  const fetchCurrentLocation = async () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -73,10 +73,6 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
       const data = await response.json();
       if (data.display_name) {
         const addresss = data.display_name;
-        // setSearchword(address);
-        // setSearchParams({ query: address, page: page });
-        // console.log(address);
-        // handleSubmit(address, 0);
         setAddress(addresss);
         console.log(address);
       } else {
@@ -122,14 +118,14 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
           >
             <i className="fa fa-search"></i>
           </button>
-          <button
+          {/* <button
             type="button"
             aria-label="use-current-location"
             className="locationButton"
             onClick={handleClick}
           >
             Use Current Location
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="imgContainer" role="complementary">

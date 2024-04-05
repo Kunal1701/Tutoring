@@ -7,7 +7,7 @@ export const searchAllTutors = async (req, res) => {
   try {
     const page = req.query.page || 0;
     const keyword = req.query.query;
-    const {address} = req.query;
+    const { address } = req.query;
     const [getTutors, searchResultNumbers] = await myDB.findTutors(
       keyword,
       page,
