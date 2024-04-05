@@ -15,7 +15,6 @@ function RegisterTeacher() {
     image: "",
     hours: [],
     location: "",
-    city: "",
   });
 
   const [error, setError] = useState({
@@ -74,6 +73,42 @@ function RegisterTeacher() {
       }));
     };
   }
+
+  const getCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          getAddressFromCoordinates(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+    }
+  };
+
+  const getAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+      );
+      const data = await response.json();
+      if (data.display_name) {
+        const address = data.display_name;
+        setUser((prevUser) => ({
+          ...prevUser,
+          location: address,
+        }));
+      } else {
+        console.error("No address found for the given coordinates");
+      }
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+  };
 
   return (
     <main className="container">
@@ -214,21 +249,6 @@ function RegisterTeacher() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="inputCity" className="form-label">
-                City
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="inputCity"
-                placeholder="Enter City"
-                value={user.city}
-                onChange={onInputChange}
-                name="city"
-                required
-              />
-            </div>
-            <div className="mb-3">
               <label htmlFor="inputLocation" className="form-label">
                 Location
               </label>
@@ -242,6 +262,13 @@ function RegisterTeacher() {
                 name="location"
                 required
               />
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                onClick={getCurrentLocation}
+              >
+                Use Current Location
+              </button>
             </div>
 
             <div className="mb-3">

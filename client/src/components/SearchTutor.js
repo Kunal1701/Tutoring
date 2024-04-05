@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../assets/styles/SearchTutor.css";
 import { useSearchParams } from "react-router-dom";
-// import TutorInfo from "../components/TutorInfo";
 import study2 from "../assets/images/study2.jpg";
 import PropTypes from "prop-types";
 
@@ -13,6 +12,7 @@ import PropTypes from "prop-types";
 function SearchTutor({ notFound, search, handleSubmit, page }) {
   const [searchword, setSearchword] = useState("");
   const [searchParams, setSearchParams] = useSearchParams("");
+  const [address, setAddress] = useState("");
 
   /**Yian Chen
    * function that handles change on search input
@@ -22,20 +22,15 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
     evt.preventDefault();
     setSearchword(evt.target.value);
     setSearchParams({ query: evt.target.value, page: page });
+    fetchCurrentLocation();
   };
 
-  /**
-   * This function clears searchParams when search is false
-   */
   useEffect(() => {
     if (!search) {
       setSearchParams("");
     }
   }, [search]);
 
-  /**
-   * This function allows users to search with keypress "enter"
-   */
   useEffect(() => {
     const keyDownHandler = (evt) => {
       if (evt.key === "Enter") {
@@ -44,19 +39,54 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
       }
     };
     window.addEventListener("keydown", keyDownHandler);
-    //cleanup (unmount)
     return () => {
       window.removeEventListener("keydown", keyDownHandler);
     };
   }, [searchParams]);
 
-  //function for when search button is clicked
   const handleClick = (evt) => {
     evt.preventDefault();
-    handleSubmit(searchword, 0);
+    fetchCurrentLocation();
   };
 
-  //renders no result
+   const fetchCurrentLocation = async () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchAddressFromCoordinates(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+    }
+  };
+
+  const fetchAddressFromCoordinates = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+      );
+      const data = await response.json();
+      if (data.display_name) {
+        const addresss = data.display_name;
+        // setSearchword(address);
+        // setSearchParams({ query: address, page: page });
+        // console.log(address);
+        // handleSubmit(address, 0);
+        setAddress(addresss);
+        console.log(address);
+      } else {
+        console.error("No address found for the given coordinates");
+      }
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+  };
+
   const noRes = () => {
     const res = (
       <div
@@ -88,9 +118,17 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
             type="button"
             aria-label="search"
             className="searchButton"
-            onClick={handleClick}
+            onClick={() => handleSubmit(searchword, 0, address)}
           >
             <i className="fa fa-search"></i>
+          </button>
+          <button
+            type="button"
+            aria-label="use-current-location"
+            className="locationButton"
+            onClick={handleClick}
+          >
+            Use Current Location
           </button>
         </div>
       </div>

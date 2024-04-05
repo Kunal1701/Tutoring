@@ -250,33 +250,37 @@ function MyMongoDB() {
    * function that queries tutors when users type key word and also returns how many searches there are
    * @param {string} key search word
    * @param {int} page number (for pagination)
+   * @param {string} address current location 
    * @returns array of objects of related searches and search size
    */
-  myDB.findTutors = async (word, page = 0) => {
+  myDB.findTutors = async (word, page = 0, address) => {
     let client;
     try {
-      client = new MongoClient(url);
-      const tutorsCol = client.db(DB_NAME).collection(TUTORS_COLLECTION);
-      const query = {
-        $or: [
-          { first_name: { $regex: word, $options: "i" } },
-          { subjects: { $regex: word, $options: "i" } },
-          { last_name: { $regex: word, $options: "i" } },
-          { location: { $regex: word, $options: "i" } },
-          { city: { $regex: word, $options: "i" } },
-        ],
-      };
-      const res = await tutorsCol
-        .find(query)
-        .skip(PAGE_SIZE * page)
-        .limit(PAGE_SIZE)
-        .toArray();
-      const resSize = await tutorsCol.countDocuments(query);
-      return [res, resSize];
+        client = new MongoClient(url);
+        const tutorsCol = client.db(DB_NAME).collection(TUTORS_COLLECTION);
+        const query = {
+            $and: [
+                {
+                    $or: [
+                        { first_name: { $regex: word, $options: "i" } },
+                        { subjects: { $regex: word, $options: "i" } },
+                        { last_name: { $regex: word, $options: "i" } },
+                    ]
+                },
+                { location: { $regex: address, $options: "i" } },
+            ]
+        };
+        const res = await tutorsCol
+            .find(query)
+            .skip(PAGE_SIZE * page)
+            .limit(PAGE_SIZE)
+            .toArray();
+        const resSize = await tutorsCol.countDocuments(query);
+        return [res, resSize];
     } finally {
-      client.close();
+        client.close();
     }
-  };
+};
 
   /**
    * Yian

@@ -67,7 +67,6 @@ export const registerTeacher = async (req, res) => {
         stars: req.body.stars,
         reviews: [],
         subjects: req.body.subjects,
-        city: req.body.city,
         location: req.body.location,
         image: await uploadImage(req.body.image),
       };

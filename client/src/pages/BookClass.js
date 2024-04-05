@@ -308,7 +308,7 @@ function BookClass() {
   //when confirm button is clicked, classes are added to DB
   const confirmClasses = () => {
     if (auth.user) {
-      fetch("http://localhost:5001/mail?email=" + tutorProfile.user)
+      fetch("/mail?email=" + tutorProfile.user)
         .then((response) => response.json())
         .then((data) => {
           console.log("Email sent successfully:", data);
@@ -346,7 +346,7 @@ function BookClass() {
    * fetchs API endpoint to query search
    * @param {String} searchword
    */
-  const handleSubmit = async (searchword, newPage) => {
+  const handleSubmit = async (searchword, newPage, address) => {
     if (!searchword) {
       setNotFound(true);
       return setTimeout(() => {
@@ -356,7 +356,7 @@ function BookClass() {
 
     try {
       const res = await fetch(
-        `/book/tutors/?query=${searchParams.get("query")}&page=${newPage}`,
+        `/book/tutors/?query=${searchParams.get("query")}&page=${newPage}&address=${address}`,
         {
           method: "POST",
           body: searchParams,
