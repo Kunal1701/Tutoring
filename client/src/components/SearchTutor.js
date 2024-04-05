@@ -24,6 +24,9 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
     setSearchParams({ query: evt.target.value, page: page });
     fetchCurrentLocation();
   };
+  useEffect(() => {
+    fetchCurrentLocation();
+  },[]);
 
   useEffect(() => {
     if (!search) {
@@ -43,11 +46,6 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
       window.removeEventListener("keydown", keyDownHandler);
     };
   }, [searchParams]);
-
-  const handleClick = (evt) => {
-    evt.preventDefault();
-    fetchCurrentLocation();
-  };
 
   const fetchCurrentLocation = async () => {
     if ("geolocation" in navigator) {

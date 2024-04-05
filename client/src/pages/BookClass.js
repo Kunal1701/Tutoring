@@ -356,7 +356,9 @@ function BookClass() {
 
     try {
       const res = await fetch(
-        `/book/tutors/?query=${searchParams.get("query")}&page=${newPage}&address=${address}`,
+        `/book/tutors/?query=${searchParams.get(
+          "query"
+        )}&page=${newPage}&address=${address}`,
         {
           method: "POST",
           body: searchParams,
