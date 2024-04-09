@@ -26,7 +26,7 @@ function SearchTutor({ notFound, search, handleSubmit, page }) {
   };
   useEffect(() => {
     fetchCurrentLocation();
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (!search) {

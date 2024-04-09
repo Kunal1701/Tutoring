@@ -131,41 +131,43 @@ function ManageBook() {
 
   return (
     <div className="mainDivBook" role="main">
-      <div className="innerDivBook">
-        <h1 className="titleBook">My Schedule</h1>
-        {schedule.map((i, idx) => {
-          return (
-            <div className="line1" key={`${i.date}_${idx}`}>
-              <div className="scheduleDivBook">
-                <p className="datep">
-                  <strong>Date :</strong> {i.date}
-                </p>
-                <p className="timep">
-                  <strong>Time :</strong> {i.time}
-                </p>
-                <p className="tutorp">
-                  <strong>Tutor :</strong> {i.tutor}
-                </p>
-                <p className="subjectp">
-                  <strong>Subject :</strong> {i.subject}
-                </p>
-                <span className="detailBtnSpanBook">
-                  {renderClassInfoBtn(i.tutor_ID)}
-                </span>
-                <span className="deleteBtnSpanBook">
-                  {renderDeleteBtn(i.date, i.time, i.tutor)}
-                </span>
-              </div>
+    <div className="innerDivBook">
+      <h1 className="titleBook">My Schedule</h1>
+      {schedule.length === 0 ? (
+        <p>No Class for You</p>
+      ) : (
+        schedule.map((i, idx) => (
+          <div className="line1" key={`${i.date}_${idx}`}>
+            <div className="scheduleDivBook">
+              <p className="datep">
+                <strong>Date :</strong> {i.date}
+              </p>
+              <p className="timep">
+                <strong>Time :</strong> {i.time}
+              </p>
+              <p className="tutorp">
+                <strong>Tutor :</strong> {i.tutor}
+              </p>
+              <p className="subjectp">
+                <strong>Subject :</strong> {i.subject}
+              </p>
+              <span className="detailBtnSpanBook">
+                {renderClassInfoBtn(i.tutor_ID)}
+              </span>
+              <span className="deleteBtnSpanBook">
+                {renderDeleteBtn(i.date, i.time, i.tutor)}
+              </span>
             </div>
-          );
-        })}
-        <div className="tutorModal">
-          {modalOpen ? (
-            <TutorModal handleModal={handleModal} tutorInfo={tutorInfo} />
-          ) : null}
-        </div>
+          </div>
+        ))
+      )}
+      <div className="tutorModal">
+        {modalOpen ? (
+          <TutorModal handleModal={handleModal} tutorInfo={tutorInfo} />
+        ) : null}
       </div>
     </div>
+  </div>
   );
 }
 
